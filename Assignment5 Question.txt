@@ -1,0 +1,25 @@
+Assignment - 5
+
+It contains signup, login, edits profile, changes password, product listing with API, and view product with API
+
+
+Signup: signup contains first Name, last name, email, mobile number, password, confirm password with react-hook-form validation. Here you need to check that this email already exists then you need to give an error.  Whenever a user gets signed up at that time you need to store user data in local storage if there are 5 users then the whole 5 users' data need to store in local storage also make sure that for security purposes you need to encrypt the password in it. Also, this page needs to be kept public.
+
+Login:  for login after you need to take input as email and password. If the password is correct then you need to log in and password is not correct then it must give an error message and if also email does not exist then also it will need to give an error. Also, this page needs to be kept public, and also make a logout button on the private screen so users can log out.
+
+Edit Profile: In the edit profile, we need to first pre-populate data first name, last name, email, and mobile number.  Here you need to check that this new edited email already exists, then you need to give an error, and also on the submit button you need to edit the profile.
+
+Change password: Here you need to keep three fields: Current password, New password and Confirm new password. Here you need to give an error when the current password is not the same as the user's current password and also when the New password and Confirm new password are not the same and also keep maintaining the password format of 8 to 32 characters, at least one letter in a capital case, at least one letter in a small case, at least one digit, and at least one special character contains (this should be followed in all signup, login and change password).
+
+Product listing: Here you need to do a listing of products with pagination.
+For Listing API -
+Type - GET
+Url - https://dummyjson.com/products
+Params - skip, limit (skip - how many products you need to skip, limit - in one page how many products you need to show for this we will keep 8 products on one page)
+Here we need to show a thumbnail image, title, category, brand name, rating, price, and discount percentage in the listing of products.
+
+View Product:  Here you need to show product details in a detailed way. Here we show all data except the id in the view product. This data also needs to take from API
+For getByIdApi - 
+Type - GET
+Url - https://dummyjson.com/products/{{id}}
+Id - product id which you can get in listing API
