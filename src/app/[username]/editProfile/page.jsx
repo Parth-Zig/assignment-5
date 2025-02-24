@@ -11,10 +11,11 @@ export default function EditProfile() {
   const router = useRouter();
   const { register, handleSubmit, setValue } = useForm();
   const [user, setUser] = useState(null);
+  const decodedUsername = decodeURIComponent(username)
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (!loggedInUser || loggedInUser.name !== username) {
+    if (!loggedInUser || loggedInUser.name !== decodedUsername) {
       router.push("/login");
     } else {
       setUser(loggedInUser);

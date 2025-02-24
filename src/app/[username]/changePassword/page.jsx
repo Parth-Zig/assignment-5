@@ -11,9 +11,11 @@ export default function ChangePassword() {
   const router = useRouter();
   const { register, handleSubmit, setError, clearErrors , formState: { errors }} = useForm();
   const [user, setUser] = useState(null);
+  const decodedUsername = decodeURIComponent(username)
+
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (!loggedInUser || loggedInUser.name !== username) {
+    if (!loggedInUser || loggedInUser.name !== decodedUsername) {
       router.push("/login");
     } else {
       setUser(loggedInUser);
