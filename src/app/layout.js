@@ -1,20 +1,22 @@
 "use client";
 
 
-import Navbar from "./Navbar/page"; 
+import Navbar1 from "./Navbar/Navbar1"; 
+import  Navbar2  from "./Navbar/Navbar2"; 
 import { usePathname } from "next/navigation";
+import style from "../styles/global.module.css"
 
 
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const noHeaderRoutes = ["/", "/login", "/signup"];
+  const dashboardRoute = ["/", "/login", "/signup"].includes(pathname);
 
   return (
     <html lang="en">
-      <body >
+      <body className={style.body}>
 
-        {!noHeaderRoutes.includes(pathname) && <Navbar />}
+        { dashboardRoute ? <Navbar2 /> : <Navbar1 />}
         {children}
       </body>
     </html>

@@ -1,0 +1,13 @@
+.paginationList {
+  margin-top: 24px; /* Assuming mt: 3 corresponds to 24px, with each spacing unit being 8px */
+  display: flex;
+  justify-content: center;
+}
+
+
+.gridBox{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px; 
+  margin-top: 16px;
+}

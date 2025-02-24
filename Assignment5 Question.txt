@@ -23,3 +23,13 @@ For getByIdApi -
 Type - GET
 Url - https://dummyjson.com/products/{{id}}
 Id - product id which you can get in listing API
+So from this API, you can get data on the product
+
+
+General things to keep in mind
+Make sure you need to follow all code structures, and naming convention rules for variable,file, and folders, and need to follow a professional project structure.
+Also for CSS files, you need to make module-specific CSS files and also don’t use direct color instead of you need to make variable.css and you need to define all color code here and you need to use and you just need to use Hexa color code format. Also, you try as much as possible for writing media queries for just breakpoints (1920(main screen), 1199, 991, 767, 575)
+Also, you need to encrypt passwords in local storage whenever you store user information.
+Must use a router to jump from one page to another page.
+You can make the design by your choice but make that responsive and creative
+UI you have to use MUI + REACT / NEXT

@@ -1,0 +1,8 @@
+.loginbox {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 40px; /* assuming the spacing unit (mt: 5) corresponds to 8px per unit, so 5 * 8 = 40px */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* assuming the gap value of 2 corresponds to 8px per unit, so 2 * 8 = 16px */
+}

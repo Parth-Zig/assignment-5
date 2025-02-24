@@ -1,0 +1,12 @@
+to do :
+make a home page UI (/)
+make a dashboard page UI more elegant
+
+
+
+I Did :
+Form validation
+dynamic routing
+authentiation 
+Edit Profile, Change Password
+end cases 

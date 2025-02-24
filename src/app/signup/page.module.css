@@ -1,0 +1,10 @@
+.signupbox {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+  }
+  
