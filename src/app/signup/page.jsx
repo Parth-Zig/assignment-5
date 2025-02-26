@@ -1,19 +1,24 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { TextField, Button, Typography, Box, Snackbar, Alert } from "@mui/material";
 import bcrypt from "bcryptjs";
 import Link from "next/link";
 import styles from "./page.module.css"
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { encrypt } from "@/utils/passwordHash";
+
 
 export default function Signup() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
   const router = useRouter();
+  const [open, setOpen] = useState(false)
 
   const onSubmit = async (data) => {
     // Retrieve users array or initialize an empty array
@@ -26,12 +31,23 @@ export default function Signup() {
 
     // Check if email already exists
     if (users.some((user) => user.email === data.email)) {
-      alert("Thi email already registerd! Please use a different email.");
+      // alert("Thi email already registerd! Please use a different email.");
+      setError("email",{type: "manual", message: "Thi email already registerd! Please use a different email."})
       return;
     }
 
+    // Check if password and confirm password match
+    if (data.password !== data.confirmPassword) {
+      console.log("pass:", data.password, "Confirm: ", data.confirmPassword );
+      setError("confirmPassword", { type: "manual", message: "Passwords does not match" });
+      return;
+    }
+
+
     // Hash the password
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+    // const hashedPassword = await bcrypt.hash(data.password, 10);
+    const hashedPassword = encrypt(data.password);
+
 
     // Create new user object
     const newUser = {
@@ -40,14 +56,31 @@ export default function Signup() {
       email: data.email,
       contactNo: data.contactNo,
       password: hashedPassword,
+      // password: data.password,
     };
 
     // Add new user to the array and update localStorage
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Signup successful! User data saved.");
+    // alert("Signup successful! User data saved.");
+    openSnackbar();
+
+  };
+
+  const openSnackbar = ( ) => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+    // Redirect to user profile
     router.push('/');
   };
+
 
   return (
     <>
@@ -107,10 +140,28 @@ export default function Signup() {
           error={!!errors.password}
           helperText={errors.password?.message}
         />
+      <TextField
+        {...register("confirmPassword", { required: "Confirm password is required" })}
+        label="Confirm New Password"
+        type="password"
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword?.message}
+      />
         <Button type="submit" variant="contained">
           Signup
         </Button>
       </Box>
+
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{vertical: 'top', horizontal: 'right' }}>
+              <Alert
+                onClose={handleClose}
+                severity="success"
+                variant="filled"
+                sx={{ width: '100%' }}
+              >
+                User registred successfully   
+              </Alert>
+            </Snackbar>
     </>
   );
 }

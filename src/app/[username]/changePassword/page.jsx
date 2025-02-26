@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { TextField, Button, Typography, Box,Snackbar, Alert } from "@mui/material";
 import bcrypt from "bcryptjs";
+import { decrypt, encrypt } from "@/utils/passwordHash";
 
 export default function ChangePassword() {
   const { username } = useParams();
   const router = useRouter();
   const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm();
   const [user, setUser] = useState(null);
+  const [open, setOpen] = useState(false)
   const decodedUsername = decodeURIComponent(username)
 
   useEffect(() => {
@@ -30,8 +32,10 @@ export default function ChangePassword() {
     } 
 
     // Check if current password matches
-    const isPasswordCorrect = await bcrypt.compare(data.currentPassword, existingUser.password);
-    if (!isPasswordCorrect) {
+    // const isPasswordCorrect = await bcrypt.compare(data.currentPassword, existingUser.password);
+    // if (!isPasswordCorrect) {
+      const realPass = decrypt(existingUser.password);
+    if(realPass !== data.currentPassword){
       setError("currentPassword", { type: "manual", message: "Incorrect current password" });
       return;
     }
@@ -43,7 +47,8 @@ export default function ChangePassword() {
     }
 
     // Hash new password
-    const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+    // const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+    const hashedPassword = encrypt(data.newPassword);
 
     // Update user password
     users = users.map((u) =>
@@ -51,12 +56,24 @@ export default function ChangePassword() {
     );
     
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Password changed successfully!");
+
+    // alert("Password changed successfully!");
+    setOpen(true);
+
+  };
+
+
+
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
     // Redirect to user profile
     router.push(`/${username}`); 
   };
 
   return (
+    <>
+
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: 400, margin: "auto", mt: 5, display: "flex", flexDirection: "column", gap: 2 }}>
       <Typography variant="h5">Change Password</Typography>
       <TextField
@@ -99,5 +116,18 @@ export default function ChangePassword() {
         Cancel
       </Button>
     </Box>
+
+      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'right' }}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Password changed successfully  
+        </Alert>
+      </Snackbar>
+
+    </>
   );
 }

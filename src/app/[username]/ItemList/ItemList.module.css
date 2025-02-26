@@ -2,6 +2,7 @@
   margin-top: 24px; /* Assuming mt: 3 corresponds to 24px, with each spacing unit being 8px */
   display: flex;
   justify-content: center;
+  padding-bottom: 25px;
 }
 
 

@@ -48,11 +48,21 @@ const ProductCard = ({ id }) => {
 
   return (
     <>
-      <Card>
+      <Card sx={
+        {
+          width: "auto",
+          '&:hover': {
+            bgcolor: '#e8f4fd',
+          },
+        }
+      }>
         <CardActionArea
-          href={`/product/${product.title
+          href={`/products/${product.title
             .toLowerCase()
             .replace(/\s+/g, "-")}?id=${product.id}`}
+            sx={{ 
+              height: "100%"
+             }}
         >
           <CardMedia
             component="img"
@@ -66,6 +76,8 @@ const ProductCard = ({ id }) => {
               alignItems: "center",
               display: "flex",
               flexDirection: "column",
+              flexGrow: 1,
+              height:"225px"
             }}
           >
             <Typography gutterBottom variant="h5" component="div">

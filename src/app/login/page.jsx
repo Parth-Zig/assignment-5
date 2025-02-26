@@ -1,10 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { TextField, Button, Typography, Box, Snackbar, Alert } from "@mui/material";
 import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css"
+import { useState } from "react";
+import { decrypt } from "@/utils/passwordHash";
 
 export default function Login() {
   const {
@@ -13,6 +15,7 @@ export default function Login() {
     formState: { errors },
   } = useForm();
   const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   const onSubmit = async (data) => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
@@ -26,8 +29,12 @@ export default function Login() {
     }
 
     // Compare entered password with stored hashed password
-    const isMatch = await bcrypt.compare(data.password, user.password);
-    if (!isMatch) {
+    // const isMatch = await bcrypt.compare(data.password, user.password);
+    const realPass = decrypt(user.password);
+
+
+    // if (!isMatch) {
+    if (realPass !== data.password){
       alert("Incorrect password! Please try again.");
       return;
     }
@@ -42,9 +49,17 @@ export default function Login() {
         contactNo: user.contactNo,
       })
     );
-    alert("Login successful!");
-    router.push(`/${user.firstName}`); // Redirect to a dashboard
+    setOpen(true);
+    // alert("Login successful!");
+    setTimeout(() => {
+        router.push(`/${user.firstName}`); // Redirect to a dashboard
+    }, 1000);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <Box
@@ -83,6 +98,18 @@ export default function Login() {
           Login
         </Button>
       </Box>
+
+
+                  <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right' }}>
+                    <Alert
+                      onClose={handleClose}
+                      severity="success"
+                      variant="filled"
+                      sx={{ width: '100%' }}
+                    >
+                      User Loged In Successfully   
+                    </Alert>
+                  </Snackbar>
 
     </>
   );

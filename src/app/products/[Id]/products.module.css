@@ -17,7 +17,7 @@
 
 .productImage{
     object-fit: contain;
-    /* height: 300px; */
+
 }
 .mainContainer {
     padding: 20px;
@@ -48,9 +48,8 @@
     flex-direction: column;
     gap: 10px;
   }
-  .reviewsSection {
-    margin-top: 20px;
-  }
+
+
   .additionalInfo {
     margin-top: 20px;
   }

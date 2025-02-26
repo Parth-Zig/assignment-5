@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { TextField, Button, Typography, Box, Snackbar, Alert } from "@mui/material";
 import styles from  "./page.module.css"
 
 export default function EditProfile() {
@@ -12,6 +12,7 @@ export default function EditProfile() {
   const { register, handleSubmit, setValue } = useForm();
   const [user, setUser] = useState(null);
   const decodedUsername = decodeURIComponent(username);
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -59,10 +60,19 @@ export default function EditProfile() {
         contactNo: data.contactNo,
       })
     );
-    router.push(`/${data.firstName}`); // Redirect to updated profile page
+    setOpen(true);
+  };
+
+
+
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+    router.push(`/${user.firstName}`); // Redirect to updated profile page
   };
 
   return (
+    <>
     <Box
       component="form"
       onSubmit={handleSubmit(onSubmit)}
@@ -96,5 +106,16 @@ export default function EditProfile() {
         Cancel
       </Button>
     </Box>
+          <Snackbar open={open} autoHideDuration={1000} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'right' }}>
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: '100%' }}
+            >
+              Profile Updated successfully  
+            </Alert>
+          </Snackbar>
+          </>
   );
 }

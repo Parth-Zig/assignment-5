@@ -10,7 +10,6 @@ import {
 import ItemCard from "../ItemCard/page";
 import styles from "./ItemList.module.css";
 
-
 const ItemList = () => {
   const [items, setItems] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -38,7 +37,15 @@ const ItemList = () => {
   };
 
   return (
-    <Container>
+    <Container maxWidth={"lg"}>
+      {/* Pagination */}
+      <Pagination
+        count={Math.ceil(totalItems / limit)}
+        page={page}
+        onChange={(event, value) => setPage(value)}
+        color="primary"
+        className={styles.paginationList}
+      />
       {loading ? (
         <CircularProgress />
       ) : (
@@ -48,15 +55,6 @@ const ItemList = () => {
               <ItemCard key={item.id} id={item.id} />
             ))}
           </Box>
-
-          {/* Pagination */}
-          <Pagination
-            count={Math.ceil(totalItems / limit)}
-            page={page}
-            onChange={(event, value) => setPage(value)}
-            color="primary"
-            className={styles.paginationList}
-          />
         </>
       )}
     </Container>
